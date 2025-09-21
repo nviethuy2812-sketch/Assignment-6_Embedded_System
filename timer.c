@@ -11,13 +11,6 @@ void TIM_Config(){
 	TIM_TimeBaseInit(TIM2, &timer);
 }
 
-void Delay_1ms(){
-	TIM_Cmd(TIM2, ENABLE); //Cho phep timer2 hoat dong
-	TIM_SetCounter(TIM2, 0);
-	while(TIM_GetCounter(TIM2) < 36000); //	Lap den khi gia tri bo dem <36000
-	TIM_Cmd(TIM2, DISABLE);
-}
-
 void Delay_1us(){
 	TIM_Cmd(TIM2, ENABLE); //Cho phep timer2 hoat dong
 	TIM_SetCounter(TIM2, 0);
@@ -28,6 +21,14 @@ void Delay_1us(){
 void Delay_ms(uint16_t time){
 	while(time--) Delay_1ms();
 }
+
+void Delay_1ms(){
+	TIM_Cmd(TIM2, ENABLE); //Cho phep timer2 hoat dong
+	TIM_SetCounter(TIM2, 0);
+	while(TIM_GetCounter(TIM2) < 36000); //	Lap den khi gia tri bo dem <36000
+	TIM_Cmd(TIM2, DISABLE);
+}
+
 
 void Delay_us(uint16_t time){
 	while(time--) Delay_1us();
