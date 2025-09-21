@@ -1,36 +1,49 @@
-# Assignment-7_Embedded_System  
-## Giao tiếp SPI và UART trên STM32F103
+# Embedded_System_PTIT_Exercise_7
 
-### 🧾 Giới thiệu
+## Giao Tiếp I2C Master trên STM32F1
 
-Dự án này minh họa cách cấu hình vi điều khiển **STM32F103C8T6** để giao tiếp dữ liệu qua **SPI** và hiển thị kết quả qua **UART**. Cụ thể:
+### Giới thiệu  
+Dự án này tập trung vào việc triển khai giao thức I²C (Inter-Integrated Circuit) trên vi điều khiển STM32F103C8T6. Trong bài tập này, STM32 sẽ được cấu hình làm thiết bị Master để giao tiếp với một cảm biến Slave (ví dụ: MPU-6050). Chương trình sẽ đọc dữ liệu từ cảm biến và gửi thông tin này lên máy tính thông qua giao tiếp UART để hiển thị trên terminal và giám sát quá trình.
 
-- Vi điều khiển gửi một byte dữ liệu (`0x44`) qua SPI đến một thiết bị Slave.
-- Nhận lại dữ liệu phản hồi.
-- Hiển thị dữ liệu gửi và nhận qua UART lên terminal trên máy tính.
+Đây là một kỹ năng quan trọng trong lập trình nhúng, cho phép vi điều khiển giao tiếp với hàng nghìn loại cảm biến, bộ nhớ và các thiết bị ngoại vi khác chỉ với hai dây tín hiệu.
 
-Ứng dụng giúp hiểu rõ cách hoạt động của **SPI (Master Mode)** và **UART (Serial Debugging)**, hai giao thức rất phổ biến trong các hệ thống nhúng.
+### Yêu cầu & Tính Năng Chính 
+- **Cấu hình I2C Master**: Khởi tạo và cấu hình giao tiếp I2C1 của STM32 để hoạt động ở chế độ Master.
+  
+- **Giao tiếp với Slave**: Viết các hàm cấp thấp để thực hiện việc đọc dữ liệu từ một địa chỉ thanh ghi cụ thể của thiết bị Slave.
 
----
+- **Giám sát qua UART**: Dữ liệu được đọc từ cảm biến sẽ được định dạng và gửi lên PC thông qua giao tiếp USART1 (9600 baud, 8-bit, không chẵn lẻ, 1 stop bit) để hiển thị trên terminal.
 
-### 🎯 Tính năng chính
+- **Báo hiệu trạng thái**: Sử dụng một đèn LED để báo hiệu trạng thái của chương trình (ví dụ: LED nhấp nháy mỗi khi dữ liệu được đọc thành công từ cảm biến).
 
-- **Cấu hình UART (USART1)** để gửi chuỗi dữ liệu đến terminal.
-- **Cấu hình SPI1 (Master)** để truyền và nhận dữ liệu với thiết bị ngoại vi.
-- **Điều khiển chân NSS (PA4)** thủ công để kích hoạt giao tiếp SPI.
-- **Gửi/nhận và hiển thị dữ liệu tuần tự**, delay mỗi lần truyền.
+### Phần Cứng Sử Dụng 🛠
+- **Board STM32F103C8T6** ("Blue Pill").
+- **Cảm biến I2C MPU-6050** (Gia tốc kế & Con quay hồi chuyển).
+- **Mạch chuyển USB-to-TTL** (CP2102 hoặc FT232).
+- **Mạch nạp ST-Link V2**.
+- **1x LED** và **điện trở hạn dòng** (~220Ω).
+- **Dây cắm** và **breadboard**.
 
----
+### Hướng Dẫn Cài Đặt & Chạy
 
-### ⚙️ Hoạt động của chương trình
+1. **Cài đặt môi trường phát triển**:
+   - Cài đặt **Keil** hoặc **STM32CubeIDE** cho việc phát triển ứng dụng.
+   - Cài đặt các trình điều khiển cần thiết cho **ST-Link** và **USB-to-TTL**.
 
-1. Khởi tạo USART1 và SPI1.
-2. Trong vòng lặp:
-   - Kéo chân **PA4** xuống mức thấp (chọn Slave).
-   - Gửi byte `0x44` và nhận lại dữ liệu qua SPI.
-   - Kéo PA4 lên lại (ngắt kết nối Slave).
-   - Hiển thị kết quả gửi/nhận qua UART.
-   - Delay khoảng ~1 giây.
+2. **Cấu hình phần mềm**:
+   - Tạo dự án mới và chọn STM32F103C8T6 làm vi điều khiển.
+   - Cấu hình giao tiếp I2C và USART trong phần mềm.
+   - Cài đặt và flash chương trình lên board STM32F103.
 
-Ví dụ output trên terminal:
+3. **Kết nối phần cứng**:
+   - Kết nối **MPU-6050** với STM32F103C8T6 qua giao tiếp I2C.
+   - Kết nối **USB-to-TTL** với máy tính để giám sát qua UART.
+   - Kết nối **LED** với một chân GPIO của STM32 để báo hiệu trạng thái.
 
+4. **Chạy chương trình**:
+   - Sau khi chương trình được tải lên board, mở terminal (ví dụ: **PuTTY**, **Tera Term**) và kết nối qua cổng COM.
+   - Chương trình sẽ hiển thị dữ liệu đọc được từ cảm biến trên terminal.
+   - LED sẽ nhấp nháy mỗi khi dữ liệu được đọc thành công.
+
+### Giấy Phép
+Dự án này được cấp phép theo **MIT License**. Xem file [LICENSE](LICENSE) để biết thêm chi tiết.
