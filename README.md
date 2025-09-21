@@ -1,35 +1,36 @@
-# Embedded_System_PTIT_Exercise_6
-## Giới thiệu  
-Dự án này sử dụng vi điều khiển STM32F103C8T6 để giao tiếp với cảm biến ánh sáng **BH1750** thông qua chuẩn I2C. Dữ liệu cường độ ánh sáng (đơn vị: lux) được đọc từ cảm biến và hiển thị lên máy tính thông qua giao tiếp UART.
+# Assignment-7_Embedded_System  
+## Giao tiếp SPI và UART trên STM32F103
 
-Ứng dụng phù hợp cho các bài học nền tảng về I2C, UART và cảm biến môi trường trong các hệ thống nhúng.
+### 🧾 Giới thiệu
 
-## Yêu Cầu & Chức Năng 🎯
-- **Khởi tạo giao tiếp I2C**: Cấu hình I2C để giao tiếp với cảm biến BH1750.
-- **UART để giám sát dữ liệu**: Sử dụng USART1 để in kết quả đọc được từ cảm biến ra terminal trên PC.
-- **Giao tiếp với cảm biến BH1750**:
-  - Khởi động cảm biến bằng lệnh `BH1750_Init()`.
-  - Đọc dữ liệu ánh sáng thông qua `BH1750_ReadLight()` và in ra bằng `printf()`.
-- **Sử dụng Timer và Delay**: Dùng Timer để tạo delay chính xác giữa các lần đọc dữ liệu.
+Dự án này minh họa cách cấu hình vi điều khiển **STM32F103C8T6** để giao tiếp dữ liệu qua **SPI** và hiển thị kết quả qua **UART**. Cụ thể:
 
-## Cảm Biến BH1750
-- Là cảm biến đo cường độ ánh sáng kỹ thuật số, giao tiếp I2C.
-- Đơn vị đo: Lux (Lx).
-- Địa chỉ I2C mặc định: `0x23` hoặc `0x5C` tùy vào chân ADD.
+- Vi điều khiển gửi một byte dữ liệu (`0x44`) qua SPI đến một thiết bị Slave.
+- Nhận lại dữ liệu phản hồi.
+- Hiển thị dữ liệu gửi và nhận qua UART lên terminal trên máy tính.
 
-## Phần Cứng Sử Dụng 🛠️
-- **STM32F103C8T6** (Blue Pill)
-- **Cảm biến BH1750**
-- **Mạch chuyển USB-to-TTL** (CP2102, FT232, CH340, ...)
-- **ST-Link V2**
-- **Breadboard, dây cắm**
-- **Nguồn 3.3V hoặc 5V tùy vào module cảm biến**
+Ứng dụng giúp hiểu rõ cách hoạt động của **SPI (Master Mode)** và **UART (Serial Debugging)**, hai giao thức rất phổ biến trong các hệ thống nhúng.
 
-## Kết Nối Phần Cứng 🔌
+---
 
-| BH1750     | STM32F103     |
-|------------|---------------|
-| VCC        | 3.3V hoặc 5V   |
-| GND        | GND           |
-| SDA        | PB7           |
-| SCL        | PB6           |
+### 🎯 Tính năng chính
+
+- **Cấu hình UART (USART1)** để gửi chuỗi dữ liệu đến terminal.
+- **Cấu hình SPI1 (Master)** để truyền và nhận dữ liệu với thiết bị ngoại vi.
+- **Điều khiển chân NSS (PA4)** thủ công để kích hoạt giao tiếp SPI.
+- **Gửi/nhận và hiển thị dữ liệu tuần tự**, delay mỗi lần truyền.
+
+---
+
+### ⚙️ Hoạt động của chương trình
+
+1. Khởi tạo USART1 và SPI1.
+2. Trong vòng lặp:
+   - Kéo chân **PA4** xuống mức thấp (chọn Slave).
+   - Gửi byte `0x44` và nhận lại dữ liệu qua SPI.
+   - Kéo PA4 lên lại (ngắt kết nối Slave).
+   - Hiển thị kết quả gửi/nhận qua UART.
+   - Delay khoảng ~1 giây.
+
+Ví dụ output trên terminal:
+
