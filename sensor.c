@@ -1,15 +1,6 @@
 #include "sensor.h"
 #include "i2c.h"
 #include "timer.h"
-
-void BH1750_Init(void) {
-    Delay_ms(10);
-    I2C_WriteByte(BH1750_ADDR, 0x01); // Power on
-    Delay_ms(10);
-    I2C_WriteByte(BH1750_ADDR, 0x10); // Cau hinh do lien tuc BH1750
-    Delay_ms(200); 
-}
-
 uint16_t BH1750_ReadLight(void) {
     uint16_t value = 0;
 		uint8_t lsb;
@@ -33,4 +24,13 @@ uint16_t BH1750_ReadLight(void) {
 
     value = ((msb << 8) | lsb) / 1.2; // chuyen ve Lux
     return value;
+}
+
+
+void BH1750_Init(void) {
+    Delay_ms(10);
+    I2C_WriteByte(BH1750_ADDR, 0x01); // Power on
+    Delay_ms(10);
+    I2C_WriteByte(BH1750_ADDR, 0x10); // Cau hinh do lien tuc BH1750
+    Delay_ms(200); 
 }
