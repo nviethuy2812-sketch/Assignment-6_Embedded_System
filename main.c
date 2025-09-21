@@ -15,9 +15,9 @@ int main(void) {
 	Delay_ms(200);
 	while(1) {
 		uint16_t lux;
-		printf("Ket qua doc du lieu cam bien:\r\n");
+		printf("Ket qua doc du lieu cam bien:");
 		lux = BH1750_ReadLight();
-		printf("Lux = %u\r\n\n", lux);
-		Delay_ms(2000);
+		printf(" %u\r\n\n", lux);
+		Delay_ms(1000);
 	}
 }
