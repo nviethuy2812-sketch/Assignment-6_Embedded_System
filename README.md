@@ -1,3 +1,4 @@
+# Embedded_System_PTIT_Exercise_7
 ## Giới thiệu  
 Dự án này sử dụng vi điều khiển STM32F103C8T6 để giao tiếp với cảm biến ánh sáng **BH1750** thông qua chuẩn I2C. Dữ liệu cường độ ánh sáng (đơn vị: lux) được đọc từ cảm biến và hiển thị lên máy tính thông qua giao tiếp UART.
 
