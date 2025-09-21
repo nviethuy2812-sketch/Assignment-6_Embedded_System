@@ -1,4 +1,5 @@
-# Embedded_System_PTIT_Exercise_7
+# Embedded_System_PTIT_Exercise_6
+
 
 ## Giao Tiếp I2C Master trên STM32F1
 
